@@ -50,7 +50,7 @@ jobs:
       # 5. Upload the zip as a release asset
       - uses: IsaacShelton/update-existing-release@v1.3.4
         with:
-          token: ${{secrets.GITHUB_TOKEN}}
+          token: ${{ secrets.GITHUB_TOKEN }}
           release: "Latest"
           tag: "latest"
           replace: true
