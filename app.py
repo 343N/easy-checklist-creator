@@ -21,12 +21,6 @@ class ChecklistApp(tk.Tk):
         self._build_ui()
 
     def _build_ui(self):
-        # Sample sections with headings and items
-        sections = {
-            "Morning Tasks": ["Wake up", "Brush Teeth", "Exercise"],
-            "Work Tasks": ["Check Emails", "Team Meeting", "Code Review"],
-            "Evening Tasks": ["Dinner", "Read a Book", "Plan Tomorrow"],
-        }
 
         # Create a canvas with scrollbar in case of many items
         container = tk.Frame(self)

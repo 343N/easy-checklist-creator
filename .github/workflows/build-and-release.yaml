@@ -1,0 +1,51 @@
+name: Build and Release
+
+on:
+  # Trigger on semantic-version tag push, e.g. v1.2.3
+  push:
+    tags:
+      - 'v*.*.*'
+  # Allow manual runs
+  workflow_dispatch:
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    steps:
+      # 1. Check out your repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Run your build script (batch file)
+      - name: Run build script
+        run: .\build.bat
+        # If your script is elsewhere, update the path above.
+
+      # 3. Zip up the build artifacts
+      - name: Zip build artifacts
+        run: powershell Compress-Archive -Path '.\dist\*' -DestinationPath 'artifacts.zip'
+
+      # 4. Create a GitHub Release for the pushed tag
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: |
+            Automated release for tag `${{ github.ref_name }}` from commit `${{ github.sha }}`.
+          draft: false
+          prerelease: false
+
+      # 5. Upload the zip as a release asset
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: artifacts.zip
+          asset_name: artifacts.zip
+          asset_content_type: application/zip
