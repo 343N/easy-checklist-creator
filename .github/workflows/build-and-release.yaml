@@ -31,28 +31,27 @@ jobs:
         run: .\build.bat
 
       - name: Zip build artifacts
-        run: powershell Compress-Archive -Path '.\dist\*' -DestinationPath 'artifacts.zip'
+        run: powershell Compress-Archive -Path '.\dist\*' -DestinationPath 'latest.zip'
 
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
-          body: |
-            Automated release for tag `${{ github.ref_name }}` from commit `${{ github.sha }}`.
-          draft: false
-          prerelease: false
+      # - name: Create GitHub Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: latest
+      #     release_name: Release latest
+      #     body: |
+      #       Automated release for tag `latest` from commit `${{ github.sha }}`.
+      #     draft: false
+      #     prerelease: false
 
       # 5. Upload the zip as a release asset
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: IsaacShelton/update-existing-release@v1.3.4
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifacts.zip
-          asset_name: artifacts.zip
-          asset_content_type: application/zip
+          token: ${{secrets.GITHUB_TOKEN}}
+          release: "Latest"
+          tag: "latest"
+          replace: true
+          files: >
+            latest.zip
