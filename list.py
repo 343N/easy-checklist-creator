@@ -1,3 +1,4 @@
+import time
 import tkinter as tk
 from tkinter import ttk
 from ctypes import windll
@@ -8,7 +9,7 @@ class ChecklistItem:
     def __init__(self, title: str, contents: list[tuple[bool, str]], parent: tk.Frame, onchecked=None):
         self.title = title
         self.container = tk.Frame(parent)
-        self.heading = tk.Label(self.container, text=title, font=(None, 14, "bold"))
+        self.heading = ttk.Label(self.container, text=title, font=(None, 14, "bold"))
         self.heading.pack(anchor="w", pady=(10, 2), padx=10)
         self.onchecked = onchecked
 
@@ -23,7 +24,7 @@ class ChecklistItem:
             if (checked):
                 self.numChecked += 1
 
-            chk = tk.Checkbutton(self.container, text=item, variable=var, command=self.checkedItemEvent)
+            chk = ttk.Checkbutton(self.container, text=item, variable=var, command=self.checkedItemEvent)
             chk.pack(anchor="w", padx=20)
             self.data.append((var, chk))
 
@@ -50,19 +51,24 @@ class ChecklistItem:
         return self.numChecked == len(self.data)
 
     def doDone(self):
-        # self.set_opacity(0.99)
-        self.container.config(bg="lightgreen")
-        for var, chk in self.data:
-            chk.config(bg="lightgreen")
-        self.heading.config(bg="lightgreen", foreground="green")
+        # time.sleep(0.1)
+        # self.set_opacity(0.9)
+        # self.container.config(bg="lightgreen")
+        # for var, chk in self.data:
+        #     chk.config(foreground="green")
+        # self.container.config(background="lightgreen")
+        self.heading.config(foreground="green")
 
     def doUndone(self):
-        # self.set_opacity(1.0)
+        # time.sleep(0.1)
+        # self.set_opacity(1)
+        # self.set_opacity(1)
         # self.container.config(background="white")
-        self.container.config(bg="white")
-        for var, chk in self.data:
-            chk.config(bg="white")
-        self.heading.config(bg="white", foreground="green")
+        # for var, chk in self.data:
+        #     chk.config(foreground="black")
+        # self.config(background="lightgreen")
+        # self.container.config(bg="white")
+        self.heading.config(foreground="black")
 
     
 

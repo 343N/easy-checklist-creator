@@ -1,1 +1,1 @@
-Example|One²True	Two²True	Three²False	Four²True	Five²True	Six²True
+Example|One²True	Two²True	Three²True	Four²True	Five²True	Six²True
